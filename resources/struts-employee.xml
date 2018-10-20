@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="employee" extends="struts-default">
+		<action name="login" class="LoginAction" method="login">
+			<result name="input">/login.jsp</result>
+			<result>/index.jsp</result>
+		</action>
+		<action name="random" class="cn.jboa.action.RandomAction">
+			<result type="stream">
+				<param name="contentType">image/jpeg</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	</package>
+	<package name="employee2" extends="struts-default">
+		<action name="claimVoucher_toAdd" class="cn.jboa.action.SysEmployeeAction" method="toadd">
+			<result>/jsp/claim/claim_voucher_edit.jsp</result>
+		</action>
+		<action name="claimVoucher_saveClaimVoucher" class="cn.jboa.action.SysEmployeeAction" method="add">
+			<result type="redirectAction">claimVoucher_searchClaimVoucher</result>
+		</action>
+		<action name="claimVoucher_searchClaimVoucher" class="cn.jboa.action.SysEmployeeAction" method="searchClaimVoucher">
+			<result>/jsp/claim/claim_voucher_list.jsp</result>
+		</action>
+		<action name="pageClaimVoucher_searchClaimVoucher" class="cn.jboa.action.SysEmployeeAction" method="pageSearchClaimVoucher">
+			<result>/jsp/claim/claim_voucher_list.jsp</result>
+		</action>
+		<action name="claimVoucher_getClaimVoucherById" class="cn.jboa.action.SysEmployeeAction" method="getViewById">
+			<result>/jsp/claim/claim_voucher_view.jsp</result>
+		</action>
+		<action name="claimVoucher_toUpdate" class="cn.jboa.action.SysEmployeeAction" method="updateById">
+			<result>/jsp/claim/claim_voucher_update.jsp</result>
+		</action>
+		<action name="claimVoucher_updateClaimVoucher" class="cn.jboa.action.SysEmployeeAction" method="update">
+			<result type="redirectAction">claimVoucher_searchClaimVoucher</result>
+		</action>
+		<action name="claimVoucher_toCheck" class="cn.jboa.action.SysEmployeeAction" method="tocheck">
+			<result>/jsp/claim/claim_voucher_check.jsp</result>
+		</action>
+		<action name="checkResult_checkClaimVoucher" class="cn.jboa.action.SysEmployeeAction" method="check">
+			<result type="redirectAction">claimVoucher_searchClaimVoucher</result>
+		</action>
+	</package>
+</struts>

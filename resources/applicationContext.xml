@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="   
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-3.2.xsd 
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <context:component-scan base-package="cn.jboa.daoImpl,cn.jboa.serviceImpl" />
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- 指定JDBC驱动类 -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<!-- 提供连接数据库的URL地址 -->
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+		<!-- 提供链接数据库的用户名和密码 -->
+		<property name="username" value="bdqn"/>
+		<property name="password" value="bdqn"/>
+	</bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:cn/jboa/entity/</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 事务管理器 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="search*" read-only="true"/>
+			<tx:method name="query*" read-only="true"/>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="register" propagation="REQUIRED"/>
+			<tx:method name="del*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="do*" propagation="REQUIRED"/>
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.jboa.serviceImpl.*.*(..))" id="serviceMethod"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+	</aop:config>
+	<!-- 登录Action -->
+	<bean id="LoginAction" class="cn.jboa.action.LoginAction">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
+	
+</beans>

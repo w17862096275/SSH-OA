@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="leave" extends="struts-default">
+		<action name="leave_toEdit" class="cn.jboa.action.BizLeaveAction" method="toEdit">
+			<result>/jsp/leave/leave_edit.jsp</result>
+		</action>
+		<action name="leave_saveLeave" class="cn.jboa.action.BizLeaveAction" method="Edit">
+			<result type="redirectAction">leave_searchLeave</result>
+		</action>
+		<action name="leave_searchLeave" class="cn.jboa.action.BizLeaveAction" method="searchLeave">
+			<result>/jsp/leave/leave_list.jsp</result>
+		</action>
+		<action name="leave_pageSearchLeave" class="cn.jboa.action.BizLeaveAction" method="pageSearchLeave">
+			<result>/jsp/leave/leave_list.jsp</result>
+		</action>
+		<action name="leave_getLeaveById" class="cn.jboa.action.BizLeaveAction" method="getLeaveById">
+			<result>/jsp/leave/leave_view.jsp</result>
+		</action>
+		<action name="leave_toCheck" class="cn.jboa.action.BizLeaveAction" method="toCheck">
+			<result>/jsp/leave/leave_check.jsp</result>
+		</action>
+		<action name="leave_checkLeave" class="cn.jboa.action.BizLeaveAction" method="checkLeave">
+			<result type="redirectAction">leave_searchLeave</result>
+		</action>
+	</package>
+</struts>

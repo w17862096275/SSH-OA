@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.3.xsd">
+<struts>
+	<!-- <constant name="struts.custom.i18n.resources" value="message"/> -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<package name="default" extends="struts-default" namespace="/">
+		<result-types>
+			<result-type name="chart" class="org.apache.struts2.dispatcher.ChartResult">
+				<param name="height">150</param>
+				<param name="width">200</param>
+			</result-type>
+		</result-types>
+		<interceptors>
+			<interceptor name="myAuthorization"
+				class="cn.jboa.utils.AuthorizationInterceptor">
+			</interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="myAuthorization" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultStack" />
+		<default-action-ref name="defaultAction" />
+		<global-results>
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+	</package>
+	<include file="struts-employee.xml"/>
+	<include file="struts-leave.xml"/>
+</struts>
